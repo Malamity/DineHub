@@ -1,4 +1,4 @@
-using Domain.Entities;
+﻿using Domain.Entities;
 
 namespace Domain.Interfaces.Services
 
@@ -9,5 +9,5 @@ namespace Domain.Interfaces.Services
         Task<Order> GetOrderAsync(int id);
         Task CreateOrderAsync(Order order);
         Task UpdateOrderAsync(Order order);
-    } 
+    }
 }
