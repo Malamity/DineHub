@@ -11,6 +11,7 @@ builder.Services
 //     .AddMutationType<RestaurantMutation>()
 //     .AddType<UserType>();
 
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
