@@ -1,19 +1,27 @@
-﻿using GraphQL.GraphQLApp.Mutations;
-using GraphQL.GraphQLApp.Queries;
-using Microsoft.Extensions.DependencyInjection;
+﻿using GraphQL.Queries;
+using GraphQL.Schema;
+using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace GraphQL.Extensions;
 
-public static class GraphQLServiceExtensions
+public static class GraphQlServiceExtensions
 {
-    public static IServiceCollection AddGraphQLServices(this IServiceCollection services)
+    public static IServiceCollection AddGraphQlServices(this IServiceCollection services)
     {
+        services.AddPooledDbContextFactory<ApplicationDbContext>(options =>
+            options.UseInMemoryDatabase("RestaurantDb"));
+
         services
             .AddGraphQLServer()
-            .AddQueryType(d => d.Name("Query"))
-            .AddTypeExtension<RestaurantQuery>()
-            .AddMutationType(d => d.Name("Mutation"))
-            .AddTypeExtension<RestaurantMutation>();
+            .AddQueryType<Query>()
+            .AddType<MenuItemType>()
+            .AddType<OrderType>()
+            .AddType<OrderItemType>()
+            .AddType<UserType>()
+            .AddProjections()
+            .AddFiltering()
+            .AddSorting();
 
         return services;
     }

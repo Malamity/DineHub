@@ -1,44 +1,24 @@
 using GraphQL.Extensions;
-using Microsoft.IdentityModel.Tokens;
+using GraphQL.Schema;
+using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+using UserType = GraphQL.Schema.UserType;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add GraphQLApp services
-builder.Services
-    .AddGraphQLServices();
-// builder.Services.AddGraphQLServer()
-//     .AddQueryType<RestaurantQuery>()
-//     .AddMutationType<RestaurantMutation>()
-//     .AddType<UserType>();
-
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-builder.Services.AddAuthentication("Bearer")
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey("supersecretkey"u8.ToArray()),
-            ValidateIssuer = false,
-            ValidateAudience = false
-        };
-    });
-
-builder.Services.AddAuthorization();
+// Add services to the container.
+builder.Services.AddGraphQlServices();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+// Configure the HTTP request pipeline.
+app.UseRouting();
+
+app.UseEndpoints(endpoints =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    endpoints.MapGraphQL();
+});
 
-app.UseHttpsRedirection();
+app.UseGraphQLPlayground("/playground");
 
-app.MapGraphQL();
-app.MapControllers();
 app.Run();
