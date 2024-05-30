@@ -4,43 +4,131 @@
 ViewData["Title"] = "GastroEngine";
 }
 
-<div class="jumbotron text-center">
-    <h1 class="display-4">Welcome to GastroEngine</h1>
-    <p class="lead">Your ultimate restaurant management service. Manage menus, orders, and users with ease and efficiency.</p>
-    <hr class="my-4">
-    <p>Streamline your restaurant operations with our comprehensive tools and features designed to enhance your business.</p>
-</div>
+<style>
+    body {
+        background-color: #2c3e50;
+        color: #ecf0f1;
+        font-family: 'Roboto', sans-serif;
+    }
+    .container {
+        margin-top: 2rem;
+    }
+    .left-section, .right-section {
+        padding: 2rem;
+    }
+    .left-section {
+        border-right: 2px solid #ecf0f1;
+    }
+    .jumbotron {
+        background-color: #34495e;
+        color: #ecf0f1;
+        padding: 2rem 1rem;
+        border-radius: 10px;
+        text-align: center;
+    }
+    .jumbotron h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+    .jumbotron p.lead {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    .btn-primary, .btn-danger, .btn-secondary {
+        background-color: #2980b9;
+        border: none;
+        color: #ecf0f1;
+        padding: 20px;
+        font-size: 1.2rem;
+        border-radius: 5px;
+        margin: 10px 0;
+        width: 100%;
+        transition: background-color 0.3s ease;
+    }
+    .btn-primary:hover, .btn-secondary:hover {
+        background-color: #3498db;
+        color: #fff;
+    }
+    .btn-danger {
+        background-color: #c0392b;
+    }
+    .btn-danger:hover {
+        background-color: #e74c3c;
+        color: #fff;
+    }
+    .text-center {
+        text-align: center;
+    }
+    .form-control {
+        background-color: #34495e;
+        border: 1px solid #ecf0f1;
+        color: #ecf0f1;
+    }
+    .form-control:focus {
+        background-color: #34495e;
+        border-color: #2980b9;
+        color: #ecf0f1;
+    }
+    .form-group {
+        margin-bottom: 1rem;
+    }
+    .text-danger {
+        color: #e74c3c;
+    }
+    .hero-image {
+        width: 50%;
+        height: auto;
+        border-radius: 10px;
+        margin-bottom: 2rem;
+    }
+</style>
 
-@if (Model.IsAuthenticated)
-{
-<div class="text-center">
-    <a asp-page="/Menu/Index" class="btn btn-primary">Menu</a>
-    <a asp-page="/Order/Index" class="btn btn-primary">Order</a>
-    <a asp-page="/User/Index" class="btn btn-primary">User</a>
-    <form method="post" asp-page-handler="Logout">
-        <button type="submit" class="btn btn-danger">Logout</button>
-    </form>
-</div>
-}
-else
-{
-<div class="row">
-    <div class="col-md-4 offset-md-4">
-        <form method="post">
-            <div class="form-group">
-                <label asp-for="Username" class="control-label"></label>
-                <input asp-for="Username" class="form-control" />
-                <span asp-validation-for="Username" class="text-danger"></span>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 left-section">
+            <div class="jumbotron">
+                <img src="~/heroimage.jpg" alt="Restaurant Image" class="hero-image" />
+                <h1 class="display-4">Welcome to GastroEngine</h1>
+                <p class="lead">Your ultimate restaurant management service. Manage menus, orders, and users with ease and efficiency.</p>
+                <hr class="my-4">
+                <p>Streamline your restaurant operations with our comprehensive tools and features designed to enhance your business.</p>
             </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" type="password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 right-section text-center">
+            @if (Model.IsAuthenticated)
+            {
+            <div>
+                <a asp-page="/Menu/Index" class="btn btn-primary">Menu</a>
+                <a asp-page="/Order/Index" class="btn btn-primary">Order</a>
+                <a asp-page="/User/Index" class="btn btn-primary">User</a>
+                <a asp-page="/GraphQL/Playground" class="btn btn-secondary">GraphQL Playground</a>
+                <form method="post" asp-page-handler="Logout">
+                    <button type="submit" class="btn btn-danger">Logout</button>
+                </form>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Login" class="btn btn-primary" />
+            }
+            else
+            {
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <form method="post">
+                        <div class="form-group">
+                            <label asp-for="Username" class="control-label"></label>
+                            <input asp-for="Username" class="form-control" />
+                            <span asp-validation-for="Username" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Password" class="control-label"></label>
+                            <input asp-for="Password" type="password" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Login" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
             </div>
-        </form>
+            }
+        </div>
     </div>
 </div>
-}
