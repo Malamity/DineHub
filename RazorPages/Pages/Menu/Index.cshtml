@@ -1,0 +1,36 @@
+@page
+@model RazorPagesApp.Pages.Menu.IndexModel
+@{
+ViewData["Title"] = "Menu";
+}
+
+<h1>Menu Items</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Category</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.MenuItems)
+    {
+    <tr>
+        <td>@item.Id</td>
+        <td>@item.Name</td>
+        <td>@item.Description</td>
+        <td>@item.Price</td>
+        <td>@item.Category</td>
+        <td>
+            <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+            <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+        </td>
+    </tr>
+    }
+    </tbody>
+</table>

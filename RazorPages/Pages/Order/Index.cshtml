@@ -1,0 +1,30 @@
+@page
+@model RazorPagesApp.Pages.Order.IndexModel
+@{
+ViewData["Title"] = "Orders";
+}
+
+<h1>Orders</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Total</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var order in Model.Orders)
+    {
+    <tr>
+        <td>@order.Id</td>
+        <td>@order.Total</td>
+        <td>
+            <a asp-page="./Edit" asp-route-id="@order.Id">Edit</a> |
+            <a asp-page="./Delete" asp-route-id="@order.Id">Delete</a>
+        </td>
+    </tr>
+    }
+    </tbody>
+</table>

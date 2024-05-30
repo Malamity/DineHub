@@ -1,6 +1,7 @@
 using Application;
 using Infrastructure.Extensions;
 using Infrastructure.Middleware;
+using Microsoft.Extensions.Configuration;
 
 namespace WebAPI;
 
@@ -9,6 +10,8 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+
+        builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
@@ -36,6 +39,5 @@ public class Program
         app.MapControllers();
 
         app.Run();
-
     }
 }
