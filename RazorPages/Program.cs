@@ -1,59 +1,84 @@
-using Application;
+using System.Text;
+using Application.Services;
+using Domain.Interfaces.Services;
+using Infrastructure.Configuration;
+using Infrastructure.Data;
 using Infrastructure.Extensions;
-using Infrastructure.Middleware;
-using GraphQL.Extensions;
+using Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
-namespace RazorPagesApp;
+var builder = WebApplication.CreateBuilder(args);
 
-public class Program
-{
-    public static void Main(string[] args)
+// Add services to the container.
+builder.Services.AddRazorPages();
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+builder.Services.AddInfrastructure();
+
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<AuthenticationService>();
+
+var jwtSettings = new JwtSettings();
+builder.Configuration.Bind(nameof(JwtSettings), jwtSettings);
+builder.Services.AddSingleton(jwtSettings);
+
+builder.Services.AddAuthentication(options =>
     {
-        var builder = WebApplication.CreateBuilder(args);
-
-        builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-
-        builder.Services.AddRazorPages();
-        builder.Services.AddControllers();
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
-        builder.Services.AddGraphQlServices();
-
-        builder.Services
-            .AddJwtAuthentication(builder.Configuration)
-            .AddApplication()
-            .AddInfrastructure();
-
-        var app = builder.Build();
-
-        if (!app.Environment.IsDevelopment())
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        options.RequireHttpsMetadata = false;
+        options.SaveToken = true;
+        options.TokenValidationParameters = new TokenValidationParameters
         {
-            app.UseExceptionHandler("/Error");
-            app.UseHsts();
-        }
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey)),
+            ValidateIssuer = true,
+            ValidIssuer = jwtSettings.Issuer,
+            ValidateAudience = true,
+            ValidAudience = jwtSettings.Audience,
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero
+        };
+    });
 
-        app.UseHttpsRedirection();
-        app.UseStaticFiles();
+builder.Services.AddAuthorization();
 
-        app.UseRouting();
+var app = builder.Build();
 
-        app.UseAuthentication();
-        app.UseAuthorization();
-
-        app.UseMiddleware<CustomHeaderMiddleware>();
-
-        app.UseSwagger();
-        app.UseSwaggerUI();
-
-        app.UseGraphQLPlayground("/playground");
-
-        app.UseEndpoints(endpoints =>
-        {
-            endpoints.MapRazorPages();
-            endpoints.MapControllers();
-            endpoints.MapGraphQL();
-        });
-
-        app.Run();
-    }
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
 }
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapRazorPages();
+    endpoints.MapControllers();
+});
+
+// Seed the database
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<ApplicationDbContext>();
+    context.Database.EnsureCreated();
+    DbInitializer.Initialize(context).Wait();
+}
+
+app.Run();
