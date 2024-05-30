@@ -1,13 +1,14 @@
+using Application;
 using GraphQL.Extensions;
-using GraphQL.Schema;
-using Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
-using UserType = GraphQL.Schema.UserType;
+using Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddGraphQlServices();
+builder.Services
+    .AddGraphQlServices()
+    .AddApplication()
+    .AddInfrastructure();
 
 var app = builder.Build();
 

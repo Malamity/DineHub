@@ -15,13 +15,6 @@ public static class Extensions
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseInMemoryDatabase("RestaurantDb"));
 
-        // Swagger configuration
-        services.AddSwaggerGen(c =>
-        {
-            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Restaurant API", Version = "v1" });
-        });
-
-        // Add repositories
         services.AddScoped<IMenuItemRepository, MenuItemRepository>();
         services.AddScoped<IOrderRepository, OrderRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
