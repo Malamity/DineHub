@@ -6,13 +6,17 @@ ViewData["Title"] = "Users";
 
 <h1>Users</h1>
 
-<table class="table">
+<p>
+    <a asp-page="Create" class="btn btn-primary">Create New User</a>
+</p>
+
+<table class="table table-striped">
     <thead>
     <tr>
         <th>Id</th>
         <th>Username</th>
         <th>Role</th>
-        <th></th>
+        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -23,8 +27,8 @@ ViewData["Title"] = "Users";
         <td>@user.Username</td>
         <td>@user.Role</td>
         <td>
-            <a asp-page="./Edit" asp-route-id="@user.Id">Edit</a> |
-            <a asp-page="./Delete" asp-route-id="@user.Id">Delete</a>
+            <a asp-page="Edit" asp-route-id="@user.Id" class="btn btn-warning">Edit</a>
+            <a asp-page="Delete" asp-route-id="@user.Id" class="btn btn-danger">Delete</a>
         </td>
     </tr>
     }

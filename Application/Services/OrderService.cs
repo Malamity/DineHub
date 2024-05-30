@@ -35,4 +35,6 @@ public class OrderService : IOrderService
 
         await _orderRepository.UpdateAsync(existingOrder);
     }
+    
+    public async Task DeleteOrderAsync(int id) => await _orderRepository.DeleteAsync(id);
 }

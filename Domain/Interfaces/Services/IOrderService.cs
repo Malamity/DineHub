@@ -9,5 +9,6 @@ namespace Domain.Interfaces.Services
         Task<Order> GetOrderAsync(int id);
         Task CreateOrderAsync(Order order);
         Task UpdateOrderAsync(Order order);
+        Task DeleteOrderAsync(int id);
     }
 }

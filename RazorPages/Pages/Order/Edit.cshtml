@@ -1,0 +1,29 @@
+@page "{id:int}"
+@model RazorPagesApp.Pages.Order.EditModel
+@{
+ViewData["Title"] = "Edit Order";
+}
+
+<h1>Edit Order</h1>
+
+<h4>Order</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="Order.UserId" class="control-label"></label>
+                <input asp-for="Order.UserId" class="form-control" />
+                <span asp-validation-for="Order.UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.Items" class="control-label"></label>
+                <input asp-for="Order.Items" class="form-control" />
+                <span asp-validation-for="Order.Items" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>

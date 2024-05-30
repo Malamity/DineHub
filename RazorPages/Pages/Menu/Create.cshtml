@@ -1,0 +1,39 @@
+@page
+@model RazorPagesApp.Pages.Menu.CreateModel
+@{
+ViewData["Title"] = "Create Menu Item";
+}
+
+<h1>Create Menu Item</h1>
+
+<h4>MenuItem</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="MenuItem.Name" class="control-label"></label>
+                <input asp-for="MenuItem.Name" class="form-control" />
+                <span asp-validation-for="MenuItem.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MenuItem.Description" class="control-label"></label>
+                <input asp-for="MenuItem.Description" class="form-control" />
+                <span asp-validation-for="MenuItem.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MenuItem.Price" class="control-label"></label>
+                <input asp-for="MenuItem.Price" class="form-control" />
+                <span asp-validation-for="MenuItem.Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MenuItem.Category" class="control-label"></label>
+                <input asp-for="MenuItem.Category" class="form-control" />
+                <span asp-validation-for="MenuItem.Category" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
