@@ -1,6 +1,7 @@
 using Application.DTOs;
 using Application.Services;
 using Domain.Interfaces.Services;
+using HotChocolate.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace RazorPagesApp.Pages.Menu

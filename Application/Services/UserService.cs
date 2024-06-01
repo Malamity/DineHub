@@ -27,7 +27,7 @@ namespace Application.Services
         {
             var user = await _userRepository.GetByUsernameAsync(username);
             if (user == null)
-                throw new KeyNotFoundException($"User with username {username} not found.");
+                return null;
             return user;
         }
 

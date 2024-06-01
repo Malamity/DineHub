@@ -77,13 +77,16 @@ public class UserServiceTests
     }
 
     [Fact]
-    public async Task GetUserByUsernameAsync_UserNotFound_ThrowsKeyNotFoundException()
+    public async Task GetUserByUsernameAsync_UserNotFound_ReturnsNull()
     {
         // Arrange
-        _mockRepo.Setup(repo => repo.GetByUsernameAsync(It.IsAny<string>())).ReturnsAsync((User)null);
+        _mockRepo!.Setup(repo => repo.GetByUsernameAsync(It.IsAny<string>())).ReturnsAsync((User)null);
 
-        // Act & Assert
-        await Assert.ThrowsAsync<KeyNotFoundException>(() => _userService.GetUserByUsernameAsync("user1"));
+        // Act
+        var result = await _userService!.GetUserByUsernameAsync("user1")!;
+
+        // Assert
+        Assert.Null(result);
     }
 
     [Fact]

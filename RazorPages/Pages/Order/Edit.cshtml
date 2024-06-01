@@ -12,18 +12,41 @@ ViewData["Title"] = "Edit Order";
     <div class="col-md-4">
         <form method="post">
             <div class="form-group">
+                <label asp-for="Order.Id" class="control-label"></label>
+                <input asp-for="Order.Id" class="form-control" readonly />
+                <span asp-validation-for="Order.Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Order.UserId" class="control-label"></label>
-                <input asp-for="Order.UserId" class="form-control" />
+                <input asp-for="Order.UserId" class="form-control" readonly/>
                 <span asp-validation-for="Order.UserId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Order.Items" class="control-label"></label>
-                <input asp-for="Order.Items" class="form-control" />
-                <span asp-validation-for="Order.Items" class="text-danger"></span>
+                <label for="menuItems" class="control-label">Menu Items</label>
+                <select id="menuItems" asp-for="SelectedMenuItemIds" class="form-control" multiple>
+                    @foreach (var item in Model.MenuItems)
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
+                <span asp-validation-for="SelectedMenuItemIds" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary"/>
             </div>
         </form>
+
+        <h4>Existing Order Items</h4>
+        <ul>
+            @foreach (var item in Model.Order.Items)
+            {
+            <li>
+                @item.MenuItemName - Quantity: @item.Quantity, Price: @item.Price
+                <form method="post" asp-page-handler="DeleteItem" asp-route-orderId="@Model.Order.Id" asp-route-orderItemId="@item.Id" class="d-inline">
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            </li>
+            }
+        </ul>
     </div>
 </div>

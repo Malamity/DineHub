@@ -14,7 +14,11 @@ public class MenuItemRepository : IMenuItemRepository
         _context = context;
     }
 
-    public async Task AddAsync(MenuItem item) => await _context.MenuItems.AddAsync(item);
+    public async Task AddAsync(MenuItem item)
+    {
+        await _context.MenuItems.AddAsync(item);
+        await _context.SaveChangesAsync();
+    }
 
     public async Task DeleteAsync(int id)
     {
@@ -22,6 +26,7 @@ public class MenuItemRepository : IMenuItemRepository
         if (item != null)
         {
             _context.MenuItems.Remove(item);
+            await _context.SaveChangesAsync();
         }
     }
 

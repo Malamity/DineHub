@@ -12,7 +12,7 @@
     "http": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "launchBrowser": false,
+      "launchBrowser": true,
       "launchUrl": "graphql",
       "applicationUrl": "http://localhost:5284",
       "environmentVariables": {

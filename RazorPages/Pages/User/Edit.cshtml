@@ -12,17 +12,32 @@ ViewData["Title"] = "Edit User";
     <div class="col-md-4">
         <form method="post">
             <div class="form-group">
+                <label asp-for="User.Id" class="control-label"></label>
+                <input asp-for="User.Id" class="form-control" readonly />
+                <span asp-validation-for="User.Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="User.Username" class="control-label"></label>
-                <input asp-for="User.Username" class="form-control" />
+                <input asp-for="User.Username" class="form-control"/>
                 <span asp-validation-for="User.Username" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="User.Password" class="control-label"></label>
+                <input asp-for="User.Password" type="password" class="form-control"/>
+                <span asp-validation-for="User.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="User.Role" class="control-label"></label>
-                <input asp-for="User.Role" class="form-control" />
+                <select asp-for="User.Role" class="form-control">
+                    @foreach (var role in Enum.GetValues(typeof(Domain.Enums.Role)))
+                    {
+                        <option value="@role">@role</option>
+                    }
+                </select>
                 <span asp-validation-for="User.Role" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary"/>
             </div>
         </form>
     </div>

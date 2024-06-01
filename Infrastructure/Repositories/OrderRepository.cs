@@ -3,8 +3,6 @@ using Domain.Interfaces.Repositories;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Repositories;
-
 public class OrderRepository : IOrderRepository
 {
     private readonly ApplicationDbContext _context;
@@ -18,14 +16,16 @@ public class OrderRepository : IOrderRepository
     {
         return await _context.Orders
             .Include(o => o.Items)
+            .ThenInclude(oi => oi.MenuItem) // Ensure MenuItem is included
             .ToListAsync();
     }
 
     public async Task<Order> GetByIdAsync(int id)
     {
-        return (await _context.Orders
+        return await _context.Orders
             .Include(o => o.Items)
-            .FirstOrDefaultAsync(o => o.Id == id))!;
+            .ThenInclude(oi => oi.MenuItem) // Ensure MenuItem is included
+            .FirstOrDefaultAsync(o => o.Id == id);
     }
 
     public async Task AddAsync(Order order)

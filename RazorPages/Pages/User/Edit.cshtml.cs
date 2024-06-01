@@ -1,8 +1,8 @@
-using Application.DTOs;
-using Domain.Enums;
-using Domain.Interfaces.Services;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Application.DTOs;
+using Domain.Interfaces.Services;
 
 namespace RazorPagesApp.Pages.User
 {
@@ -44,12 +44,19 @@ namespace RazorPagesApp.Pages.User
                 return Page();
             }
 
-            var user = new Domain.Entities.User
+            var user = await _userService.GetUserByIdAsync(User.Id);
+
+            if (user == null)
             {
-                Id = User.Id,
-                Username = User.Username,
-                Role = Enum.Parse<Role>(User.Role)
-            };
+                return NotFound();
+            }
+
+            user.Username = User.Username;
+            if (!string.IsNullOrEmpty(User.Password))
+            {
+                user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(User.Password);
+            }
+            user.Role = Enum.Parse<Domain.Enums.Role>(User.Role);
 
             await _userService.UpdateUserAsync(user);
 

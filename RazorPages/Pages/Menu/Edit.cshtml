@@ -12,6 +12,11 @@ ViewData["Title"] = "Edit Menu Item";
     <div class="col-md-4">
         <form method="post">
             <div class="form-group">
+                <label asp-for="MenuItem.Id" class="control-label"></label>
+                <input asp-for="MenuItem.Id" class="form-control" readonly />
+                <span asp-validation-for="MenuItem.Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="MenuItem.Name" class="control-label"></label>
                 <input asp-for="MenuItem.Name" class="form-control" />
                 <span asp-validation-for="MenuItem.Name" class="text-danger"></span>

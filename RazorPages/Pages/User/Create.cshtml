@@ -1,7 +1,7 @@
 @page
 @model RazorPagesApp.Pages.User.CreateModel
 @{
-    ViewData["Title"] = "Create User";
+ViewData["Title"] = "Create User";
 }
 
 <h1>Create User</h1>
@@ -17,8 +17,18 @@
                 <span asp-validation-for="User.Username" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="User.Password" class="control-label"></label>
+                <input asp-for="User.Password" type="password" class="form-control" />
+                <span asp-validation-for="User.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="User.Role" class="control-label"></label>
-                <input asp-for="User.Role" class="form-control" />
+                <select asp-for="User.Role" class="form-control">
+                    @foreach (var role in Enum.GetValues(typeof(Domain.Enums.Role)))
+                    {
+                    <option value="@role">@role</option>
+                    }
+                </select>
                 <span asp-validation-for="User.Role" class="text-danger"></span>
             </div>
             <div class="form-group">

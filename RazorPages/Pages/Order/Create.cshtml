@@ -17,9 +17,14 @@ ViewData["Title"] = "Create Order";
                 <span asp-validation-for="Order.UserId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Order.Items" class="control-label"></label>
-                <input asp-for="Order.Items" class="form-control" />
-                <span asp-validation-for="Order.Items" class="text-danger"></span>
+                <label for="menuItems" class="control-label">Menu Items</label>
+                <select id="menuItems" asp-for="SelectedMenuItemIds" class="form-control" multiple>
+                    @foreach (var item in Model.MenuItems)
+                    {
+                    <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
+                <span asp-validation-for="SelectedMenuItemIds" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

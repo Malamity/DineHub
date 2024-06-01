@@ -1,11 +1,13 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebAPI.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class OrderController : ControllerBase
@@ -48,6 +50,16 @@ public class OrderController : ControllerBase
         if (existingOrder == null) return NotFound();
 
         await _orderService.UpdateOrderAsync(order);
+        return NoContent();
+    }
+    
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteOrder(int id)
+    {
+        var order = await _orderService.GetOrderAsync(id);
+        if (order == null) return NotFound();
+
+        await _orderService.DeleteOrderAsync(id);
         return NoContent();
     }
 }
